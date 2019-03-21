@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxiip.mapper.VehicleChargeInfoMapper">
+    <resultMap id="vehicleChargeInfoResultMapper" type="com.wxiip.pocdomain.VehicleChargeInfo">
+        <id     column="id"           property="id"></id>
+        <result column="vin"          property="vin"/>
+        <result column="charge_time1" property="chargeTime1"/>
+        <result column="charge_time2" property="chargeTime2"/>
+        <result column="creatime"     property="creatime"/>
+        <result column="sflag"        property="sflag"/>
+    </resultMap>
+
+    <insert id="saveVehicleChargeInfo" parameterType="com.wxiip.pocdomain.VehicleChargeInfo">
+        insert into tb_vehicle_chargeinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+          <if test="vin != null">vin,</if>
+          <if test="chargeTime1 != null">charge_time1,</if>
+          <if test="chargeTime2 != null">charge_time2,</if>
+          <if test="creatime != null">creatime,</if>
+          <if test="sflag != null">sflag,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vin != null">#{vin,jdbcType=VARCHAR},</if>
+            <if test="chargeTime1 != null">#{chargeTime1,jdbcType=INTEGER},</if>
+            <if test="chargeTime2 != null">#{chargeTime2,jdbcType=DOUBLE},</if>
+            <if test="creatime != null">#{creatime,jdbcType=TIMESTAMP},</if>
+            <if test="sflag != null">#{sflag,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+
+    <insert id="saveMultiVehicleChargeInfo" parameterType="java.util.List">
+        insert into tb_vehicle_chargeinfo(vin,charge_time1,charge_time2,creatime,sflag) values
+        <foreach collection="list" item="vehicleChargeInfo" index="index" separator=",">
+            (#{vehicleChargeInfo.vin},#{vehicleChargeInfo.chargeTime1},#{vehicleChargeInfo.chargeTime2},#{vehicleChargeInfo.creatime},#{vehicleChargeInfo.sflag})
+        </foreach>
+    </insert>
+
+    <select id="query"  resultMap="vehicleChargeInfoResultMapper">
+        select * from tb_vehicle_chargeinfo t where 1=1
+        <if test="id != null and id != 0">
+            and id = #{id}
+        </if>
+        <if test="vin != null and vin != ''">
+            and vin = #{vin}
+        </if>
+    </select>
+
+</mapper>

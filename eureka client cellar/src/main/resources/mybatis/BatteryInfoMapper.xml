@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxiip.mapper.BatteryInfoMapper">
+    <resultMap id="batteryResultMapper" type="com.wxiip.pocdomain.BatteryInfo">
+        <id     column="id"                    property="id"/>
+        <result column="module_id"             property="moduleId"/>
+        <result column="module_cell_min_id"    property="moduleCellMinId"/>
+        <result column="original_charge_times" property="originalChargeTimes"/>
+        <result column="manufacturers"         property="manufacturers"/>
+        <result column="owner"                 property="owner"/>
+        <result column="creatime"              property="creatime"/>
+    </resultMap>
+
+    <select id="queryBatteryInfoByVin" resultMap="batteryResultMapper">
+        select a.id,a.module_id,a.original_charge_times,a.manufacturers,a.creatime from tb_battery_info a inner join
+         tb_vehicle_battery_rel b on (a.module_id=b.module_id and b.vin= #{vin})
+    </select>
+
+    <select id="query" resultMap="batteryResultMapper">
+          select * from tb_battery_info where 1 = 1
+          <if test="id != null and id != 0">
+              and id = #{id}
+          </if>
+          <if test="moduleId != null and moduleId != ''">
+              and module_id = #{moduleId}
+          </if>
+          <if test = "moduleCellMinId != null and moduleCellMinId !=''">
+              and module_cell_min_id = #{moduleCellMinId}
+          </if>
+          <if test = "originalChargeTimes != null and originalChargeTimes !=''">
+              and original_charge_times = #{originalChargeTimes}
+          </if>
+          <if test = "manufacturers != null and manufacturers != ''">
+              and manufacturers = #{manufacturers}
+          </if>
+          <if test="start != null and pageSize != 0 and pageSize != null">
+              limit #{start},#{pageSize}
+          </if>
+    </select>
+
+    <select id="queryTotalNumbers" resultType="java.lang.Integer">
+        select count(*) from tb_battery_info where 1 = 1
+        <if test="id != null and id != 0">
+            and id = #{id}
+        </if>
+        <if test="moduleId != null and moduleId != ''">
+            and module_id = #{moduleId}
+        </if>
+        <if test = "moduleCellMinId != null and moduleCellMinId !=''">
+            and module_cell_min_id = #{moduleCellMinId}
+        </if>
+        <if test = "originalChargeTimes != null and originalChargeTimes !=''">
+            and original_charge_times = #{originalChargeTimes}
+        </if>
+        <if test = "manufacturers != null and manufacturers != ''">
+            and manufacturers = #{manufacturers}
+        </if>
+    </select>
+
+    <update id="update">
+        update tb_battery_info
+        <set>
+            <if test="moduleCellMinId != null">module_cell_min_id = #{moduleCellMinId},</if>
+            <if test="originalChargeTimes != null">original_charge_times = #{originalChargeTimes},</if>
+            <if test="owner != null">owner = #{owner},</if>
+            <if test="manufacturers != null">manufacturers = #{manufacturers},</if>
+            <if test="creatime != null">creatime = #{creatime}</if>
+        </set>
+        where module_id = #{moduleId}
+    </update>
+</mapper>

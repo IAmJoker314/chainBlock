@@ -1,0 +1,15 @@
+server:
+  port: 9000
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false   #表示是否将自己注册到Eureka Server上，默认是true
+    fetchRegistry: false #表示是否从Eureka Server上获取注册信息，默认是true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+spring:
+  application:
+    name: eurka-server

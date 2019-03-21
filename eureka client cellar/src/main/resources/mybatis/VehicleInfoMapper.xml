@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxiip.mapper.VehicleInfoMapper">
+    <resultMap id="vehicleinfoResultMapper" type="com.wxiip.pocdomain.VehicleInfo">
+        <id column="id" property="id"></id>
+        <result column="vin" property="vin"/>
+        <result column="service_life" property="serviceLife"/>
+        <result column="chargetimes" property="chargetimes"/>
+        <result column="creatime" property="creatime"/>
+    </resultMap>
+
+    <select id="queryAllVehicleInfo"  resultMap="vehicleinfoResultMapper">
+        select id,vin,service_life,chargetimes,creatime from tb_vehicle_info
+    </select>
+</mapper>

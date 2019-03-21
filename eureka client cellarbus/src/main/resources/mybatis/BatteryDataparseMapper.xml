@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxiip.mapper.BatteryDataparseMapper">
+    <resultMap id="batteryDataparseResultMap" type="com.wxiip.ebusdomain.BatteryDataparseInfo">
+        <id column="dp_id" property="id"></id>
+        <result column="dp_vin" property="vin"/>
+        <result column="dp_charge_state" property="chargeState"/>
+        <result column="dp_soc" property="soc"/>
+        <result column="dp_collection_time" property="collectionTime"/>
+    </resultMap>
+
+    <select id="queryChargeOfVehicle" resultMap="batteryDataparseResultMap">
+        select dp_id,dp_vin,dp_charge_state,dp_soc,dp_collection_time from tb_dataparseinfo where dp_vin=#{vin} and dp_charge_state='停车充电' and dp_collection_time between #{startime} and #{endtime} order by dp_collection_time asc
+    </select>
+</mapper>

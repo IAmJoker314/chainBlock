@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxiip.mapper.BatteryChargeHistoryMapper">
+    <resultMap id="batteryChargeHistoryResultMap" type="com.wxiip.pocdomain.BatteryChargeHistory">
+        <id     column="id"                    property="id"></id>
+        <result column="module_id"             property="moduleId" />
+        <result column="remaining_chargetime1" property="remainingChargetime1" />
+        <result column="remaining_chargetime2" property="remainingChargetime2" />
+        <result column="statistics_time"       property="statisticsTime" />
+        <result column="indexhash"             property="indexhash" />
+        <result column="mainhash"              property="mainhash" />
+        <result column="chain_mainhash"        property="chainMainhash" />
+        <result column="chaintime"             property="chaintime" />
+        <result column="chaininfo"             property="chaininfo" />
+    </resultMap>
+
+    <select id="query" resultMap="batteryChargeHistoryResultMap">
+        select * from tb_battery_charge_history where 1=1
+        <if test="id != null and id != 0">
+            and id = #{id}
+        </if>
+        <if test="moduleId != null and moduleId != ''">
+            and module_id = #{moduleId}
+        </if>
+    </select>
+
+    <insert id="saveSingleBatteryCharge" parameterType="com.wxiip.pocdomain.BatteryChargeHistory">
+        insert into tb_battery_charge_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="moduleId !=null">module_id,</if>
+            <if test="remainingChargetime1 !=null">remaining_chargetime1,</if>
+            <if test="remainingChargetime2 !=null">remaining_chargetime2,</if>
+            <if test="statisticsTime !=null">statistics_time,</if>
+            <if test="indexhash !=null">indexhash,</if>
+            <if test="mainhash !=null">mainhash,</if>
+            <if test="chainMainhash !=null">chain_mainhash,</if>
+            <if test="chaintime !=null">chaintime,</if>
+            <if test="chaininfo !=null">chaininfo,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="moduleId !=null">#{moduleId,jdbcType=VARCHAR},</if>
+            <if test="remainingChargetime1 !=null">#{remainingChargetime1,jdbcType=DOUBLE},</if>
+            <if test="remainingChargetime2 !=null">#{remainingChargetime1,jdbcType=INTEGER},</if>
+            <if test="statisticsTime !=null">#{statisticsTime,jdbcType=TIMESTAMP},</if>
+            <if test="indexhash !=null">#{indexhash,jdbcType=VARCHAR},</if>
+            <if test="mainhash !=null">#{mainhash,jdbcType=VARCHAR},</if>
+            <if test="chainMainhash !=null">#{chainMainhash,jdbcType=VARCHAR},</if>
+            <if test="chaintime !=null">#{chaintime,jdbcType=TIMESTAMP},</if>
+            <if test="chaininfo !=null">#{chaininfo,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+
+    <insert id="saveMultipleBatteryCharge" parameterType="java.util.List">
+        insert into tb_battery_charge_history(module_id,remaining_chargetime1,remaining_chargetime2,statistics_time,indexhash,mainhash,chain_mainhash,chaintime,chaininfo)
+        values
+        <foreach collection="list" item="batteryChargeHistory" index="index" separator=",">
+            (#{batteryChargeHistory.moduleId},#{batteryChargeHistory.remainingChargetime1},#{batteryChargeHistory.remainingChargetime2},#{batteryChargeHistory.statisticsTime},
+            #{batteryChargeHistory.indexhash},#{batteryChargeHistory.mainhash},#{batteryChargeHistory.chainMainhash},#{batteryChargeHistory.chaintime},#{batteryChargeHistory.chaininfo})
+        </foreach>
+    </insert>
+
+</mapper>

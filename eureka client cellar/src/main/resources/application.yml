@@ -1,0 +1,41 @@
+server:
+  port: 8081
+
+mybatis:
+  mapper-locations: classpath:mybatis/*.xml   #配置mapper xml文件所在的路径
+  type-aliases-package: com.wxiip.pocdomain   #配置映射类所在包名
+
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:mysql://mysqlforebus.mysqldb.chinacloudapi.cn/poc_bcos?useUnicode=true&characterEncoding=UTF-8&useSSL=true
+    username: mysqlforebus%wx
+    password: wx@12345
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 下面为连接池的补充设置，应用到上面所有数据源中
+    initialSize: 1   # 初始化大小，最小、最大
+    minIdle: 3
+    maxActive: 20
+    maxWait: 60000   # 配置获取连接等待超时时间
+    timeBetweenEvictionRunsMillis: 60000   # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    minEvictableIdleTimeMillis: 300000     #配置一个连接在池中最小生存时间，单位是毫秒
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true # 打开PSCache,并且指定每个连接上PSCache的大小
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat,wall,slf4j   # 配置监控拦截的filters，去掉后监控界面sql无法统计，‘wall’用于防火墙
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000 # 通过connnectionProperties属性来打开mergeSql功能，‘wall’用于防火墙
+    # 合并多个DruidDataSource的监控数据
+    # useGlobalDataSourceStat: true
+
+eureka:
+  instance:
+    instance-id: user-api-8081
+    prefer-ip-address: true   #显示访问路径可以显示ip
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9000/eureka/

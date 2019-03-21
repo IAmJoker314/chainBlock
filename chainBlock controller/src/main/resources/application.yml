@@ -1,0 +1,12 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9000/eureka/
+server:
+  port: 8765
+spring:
+  application:
+    name: user-controller
+ribbon:
+  ReadTimeout: 60000
+  connectTimeout: 60000
