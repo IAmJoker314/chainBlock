@@ -1,4 +1,4 @@
-package com.wxiip.service.impl;
+package com.wxiip.service;
 
 import com.wxiip.pocdomain.User;
 

@@ -5,6 +5,6 @@ import com.wxiip.pocdomain.User;
 
 public interface UserLandMapper {
 
-    User qurey(String userName);
+    User getUserInfo(String userName);
 
 }
